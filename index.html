@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<title>Roblox Quiz – Variablen & Sicherheit</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+* { box-sizing: border-box; font-family: system-ui, sans-serif; }
+body { margin: 0; background: #f4f4f4; display: flex; justify-content: center; }
+.app {
+  background: white; max-width: 900px; width: 100%;
+  margin: 12px; padding: 12px; border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+h1 { text-align: center; font-size: 18px; }
+.score { text-align: right; font-size: 12px; color: #555; }
+.category { font-weight: bold; font-size: 12px; margin-bottom: 4px; }
+.question { font-weight: 600; margin-bottom: 6px; }
+pre { background: #1e1e1e; color: #fff; padding: 8px; border-radius: 6px; font-size: 12px; }
+.answers { display: grid; gap: 6px; margin-top: 6px; }
+.answer {
+  border: 1px solid #ccc; border-radius: 6px;
+  padding: 6px; background: #fafafa; cursor: pointer;
+}
+.answer.correct { background: #d4edda; border-color: #28a745; }
+.answer.wrong { background: #f8d7da; border-color: #dc3545; }
+.answer.disabled { pointer-events: none; }
+.feedback { margin-top: 6px; font-weight: bold; }
+.controls { margin-top: 10px; display: flex; justify-content: space-between; font-size: 12px; }
+button { padding: 6px 10px; border: none; border-radius: 6px; background: #007bff; color: white; cursor: pointer; }
+button:hover { background: #0062cc; }
+</style>
+</head>
+
+<body>
+<div class="app">
+<h1>Roblox Quiz – Variablen & Sicherheit</h1>
+<div class="score" id="score">Punkte: 0</div>
+
+<div class="category" id="category"></div>
+<div class="question" id="question"></div>
+<pre id="code" style="display:none"></pre>
+
+<div class="answers" id="answers"></div>
+<div class="feedback" id="feedback"></div>
+
+<div class="controls">
+  <div id="progress"></div>
+  <button onclick="next()">Nächste Frage</button>
+</div>
+</div>
+
+<script>
+const questions = [
+/* ================= VARIABLEN (25) ================= */
+{cat:"Variablen",q:"Was ist eine Variable?",a:["Eine Box für einen Wert","Ein Spieler","Ein Chat","Ein Bild"],c:0},
+{cat:"Variablen",q:"Was ist hier der Variablenname?",code:"local punkte = 5",a:["punkte","local","5","="],c:0},
+{cat:"Variablen",q:"Was ist hier der Wert?",code:"local leben = 3",a:["leben","local","3","Script"],c:2},
+{cat:"Variablen",q:"Wozu benutzt man Variablen?",a:["Um Werte zu speichern","Um Robux zu kaufen","Um zu chatten","Um Werbung zu machen"],c:0},
+{cat:"Variablen",q:"Kann sich der Wert einer Variable ändern?",a:["Ja","Nein","Nur einmal","Nie im Spiel"],c:0},
+{cat:"Variablen",q:"Welche Zeile erstellt eine Variable?",a:["local zahl = 5","zahl == 5","print(5)","if 5 then"],c:0},
+{cat:"Variablen",q:"Was macht diese Zeile?",code:"local name = \"Alex\"",a:["Speichert den Namen Alex","Vergleicht Namen","Gibt Alex aus","Löscht Alex"],c:0},
+{cat:"Variablen",q:"Welche Variable ist gut benannt?",a:["punkte","a","x1x","test123test123"],c:0},
+{cat:"Variablen",q:"Was speichert eine Variable NICHT?",a:["Zahlen","Text","Werte","Echte Personen"],c:3},
+{cat:"Variablen",q:"Was zeigt print(zahl)?",a:["Den Wert der Variable","Den Namen","Einen Fehler","Ein Bild"],c:0},
+{cat:"Variablen",q:"Was bedeutet das = Zeichen?",a:["Wert zuweisen","Vergleichen","Addieren","Stoppen"],c:0},
+{cat:"Variablen",q:"Was ist KEINE Variable?",a:["punkte","leben","local","score"],c:2},
+{cat:"Variablen",q:"Wozu braucht man Variablen im Spiel?",a:["Punkte zählen","Spiel beenden","Chat löschen","Roblox schließen"],c:0},
+{cat:"Variablen",q:"Was ist hier richtig?",code:"local level = 1",a:["level ist der Name","1 ist der Name","local ist der Wert","= ist der Wert"],c:0},
+{cat:"Variablen",q:"Was passiert ohne Variablen?",a:["Man kann keine Werte merken","Spiel ist schöner","Mehr Robux","Bessere Grafik"],c:0},
+{cat:"Variablen",q:"Was ist ein typischer Variablenwert?",a:["5","\"Hallo\"","true","Alle sind richtig"],c:3},
+{cat:"Variablen",q:"Wo lebt eine lokale Variable?",a:["Im Script","Im Internet","Im Chat","Im Spieler"],c:0},
+{cat:"Variablen",q:"Was ist hier die Variable?",code:"local zeit = 10",a:["zeit","10","local","="],c:0},
+{cat:"Variablen",q:"Warum sind Variablen wichtig?",a:["Damit Spiele funktionieren","Für Musik","Für Skins","Für Werbung"],c:0},
+{cat:"Variablen",q:"Was kann eine Variable speichern?",a:["Punkte","Leben","Namen","Alles davon"],c:3},
+{cat:"Variablen",q:"Was ist KEIN guter Variablenname?",a:["punkte","leben","2zahl","spieler"],c:2},
+{cat:"Variablen",q:"Was ist einfacher zu verstehen?",a:["punkte","a","x","z"],c:0},
+{cat:"Variablen",q:"Variablen sind Teil von …",a:["Scripts","Chats","Freunden","Avataren"],c:0},
+{cat:"Variablen",q:"Stimmt das?",a:["Variablen speichern Werte","Variablen sind Spieler","Variablen sind Robux","Variablen sind Sounds"],c:0},
+{cat:"Variablen",q:"Ohne Variablen kann ein Spiel …",a:["Kaum etwas merken","Mehr Farben zeigen","Schneller laden","Mehr Spieler haben"],c:0},
+
+/* ================= ROBLOX SICHERHEIT (25) ================= */
+{cat:"Roblox – Sicherheit",q:"Darf man seine Adresse im Chat schreiben?",a:["Nein","Ja","Nur Freunden","Nur kurz"],c:0},
+{cat:"Roblox – Sicherheit",q:"Jemand fragt nach deinem Passwort. Was tun?",a:["Nicht sagen","Sagen","Erraten lassen","Im Chat posten"],c:0},
+{cat:"Roblox – Sicherheit",q:"Was ist ein starkes Passwort?",a:["Lang & geheim","1234","Name","Geburtstag"],c:0},
+{cat:"Roblox – Sicherheit",q:"Kostenlose Robux über Link?",a:["Betrug","Geschenk","Sicher","Erlaubt"],c:0},
+{cat:"Roblox – Sicherheit",q:"Was tun bei Beleidigungen?",a:["Melden","Zurückschreiben","Lachen","Ignorieren für immer"],c:0},
+{cat:"Roblox – Sicherheit",q:"Wer darf private Fotos bekommen?",a:["Niemand","Freunde","Andere Spieler","Fremde"],c:0},
+{cat:"Roblox – Sicherheit",q:"Was sind private Daten?",a:["Adresse","Passwort","Telefonnummer","Alle"],c:3},
+{cat:"Roblox – Sicherheit",q:"Jemand macht dir Angst. Was tun?",a:["Erwachsenen sagen","Mitmachen","Ignorieren","Zurückdrohen"],c:0},
+{cat:"Roblox – Sicherheit",q:"Ist jeder Spieler ein Freund?",a:["Nein","Ja","Immer","Meistens"],c:0},
+{cat:"Roblox – Sicherheit",q:"Was ist Melden?",a:["Problem weitergeben","Chat löschen","Spiel verlassen","Spiel kaputt machen"],c:0},
+{cat:"Roblox – Sicherheit",q:"Darf man fremde Links anklicken?",a:["Nein","Ja","Manchmal","Nur nachts"],c:0},
+{cat:"Roblox – Sicherheit",q:"Was ist Grooming?",a:["Gefährliches Verhalten","Spielmodus","Skin","Emote"],c:0},
+{cat:"Roblox – Sicherheit",q:"Wer hilft bei Problemen?",a:["Erwachsene","Fremde Spieler","Niemand","Bots"],c:0},
+{cat:"Roblox – Sicherheit",q:"Soll man sich unwohl fühlen müssen?",a:["Nein","Ja","Manchmal","Im Spiel schon"],c:0},
+{cat:"Roblox – Sicherheit",q:"Was ist richtig?",a:["Echte Daten bleiben privat","Alles teilen","Passwort weitergeben","Links anklicken"],c:0},
+{cat:"Roblox – Sicherheit",q:"Ist Zurückbeleidigen gut?",a:["Nein","Ja","Hilft","Ist erlaubt"],c:0},
+{cat:"Roblox – Sicherheit",q:"Was tun bei komischen Nachrichten?",a:["Melden","Antworten","Weiterleiten","Ignorieren immer"],c:0},
+{cat:"Roblox – Sicherheit",q:"Darf man fremden Spielern vertrauen?",a:["Nicht automatisch","Immer","Meistens","Nie Eltern sagen"],c:0},
+{cat:"Roblox – Sicherheit",q:"Was schützt dein Konto?",a:["Passwort","Freunde","Chat","Skin"],c:0},
+{cat:"Roblox – Sicherheit",q:"Soll man Probleme verschweigen?",a:["Nein","Ja","Manchmal","Immer"],c:0},
+{cat:"Roblox – Sicherheit",q:"Wer entscheidet, was du teilst?",a:["Du","Andere","Roblox","Chat"],c:0},
+{cat:"Roblox – Sicherheit",q:"Ist Hilfe holen okay?",a:["Ja","Nein","Peinlich","Verboten"],c:0},
+{cat:"Roblox – Sicherheit",q:"Was ist richtig?",a:["Sicherheit geht vor","Robux geht vor","Freunde immer","Mutprobe"],c:0},
+{cat:"Roblox – Sicherheit",q:"Wenn etwas falsch wirkt …",a:["Hör auf dein Gefühl","Mach weiter","Ignorier es","Schreib zurück"],c:0},
+];
+
+let i=0, score=0, done=false;
+const qEl=document.getElementById("question"),
+aEl=document.getElementById("answers"),
+fEl=document.getElementById("feedback"),
+cEl=document.getElementById("category"),
+sEl=document.getElementById("score"),
+pEl=document.getElementById("progress"),
+codeEl=document.getElementById("code");
+
+function show(){
+  const q=questions[i];
+  cEl.textContent="Thema: "+q.cat;
+  qEl.textContent=q.q;
+  codeEl.style.display=q.code?"block":"none";
+  codeEl.textContent=q.code||"";
+  aEl.innerHTML=""; fEl.textContent=""; done=false;
+  q.a.forEach((t,n)=>{
+    const b=document.createElement("div");
+    b.className="answer";
+    b.textContent=t;
+    b.onclick=()=>answer(n,b);
+    aEl.appendChild(b);
+  });
+  pEl.textContent=`Frage ${i+1} von ${questions.length}`;
+}
+function answer(n,b){
+  if(done) return; done=true;
+  const q=questions[i];
+  [...aEl.children].forEach((x,j)=>{
+    x.classList.add("disabled");
+    if(j===q.c) x.classList.add("correct");
+  });
+  if(n===q.c){ score++; sEl.textContent="Punkte: "+score; fEl.textContent="Richtig!"; }
+  else { b.classList.add("wrong"); fEl.textContent="Falsch."; }
+}
+function next(){ i=(i+1)%questions.length; if(i===0){score=0; sEl.textContent="Punkte: 0";} show(); }
+show();
+</script>
+</body>
+</html>
