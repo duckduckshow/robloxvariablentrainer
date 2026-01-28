@@ -107,43 +107,84 @@ const questions = [
 {cat:"Roblox – Sicherheit",q:"Wenn etwas falsch wirkt …",a:["Hör auf dein Gefühl","Mach weiter","Ignorier es","Schreib zurück"],c:0},
 ];
 
-let i=0, score=0, done=false;
-const qEl=document.getElementById("question"),
-aEl=document.getElementById("answers"),
-fEl=document.getElementById("feedback"),
-cEl=document.getElementById("category"),
-sEl=document.getElementById("score"),
-pEl=document.getElementById("progress"),
-codeEl=document.getElementById("code");
+let i = 0;
+let score = 0;
+let done = false;
+let currentCorrect = 0;
+
+const qEl = document.getElementById("question");
+const aEl = document.getElementById("answers");
+const fEl = document.getElementById("feedback");
+const cEl = document.getElementById("category");
+const sEl = document.getElementById("score");
+const pEl = document.getElementById("progress");
+const codeEl = document.getElementById("code");
+
+function shuffle(arr){
+  for(let i=arr.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    [arr[i],arr[j]]=[arr[j],arr[i]];
+  }
+  return arr;
+}
 
 function show(){
-  const q=questions[i];
-  cEl.textContent="Thema: "+q.cat;
-  qEl.textContent=q.q;
-  codeEl.style.display=q.code?"block":"none";
-  codeEl.textContent=q.code||"";
-  aEl.innerHTML=""; fEl.textContent=""; done=false;
-  q.a.forEach((t,n)=>{
-    const b=document.createElement("div");
-    b.className="answer";
-    b.textContent=t;
-    b.onclick=()=>answer(n,b);
+  const q = questions[i];
+  cEl.textContent = "Thema: " + q.cat;
+  qEl.textContent = q.q;
+
+  codeEl.style.display = q.code ? "block" : "none";
+  codeEl.textContent = q.code || "";
+
+  aEl.innerHTML = "";
+  fEl.textContent = "";
+  done = false;
+
+  const order = shuffle([0,1,2,3]);
+  currentCorrect = order.indexOf(q.c);
+
+  order.forEach((orig, shown)=>{
+    const b = document.createElement("div");
+    b.className = "answer";
+    b.textContent = q.a[orig];
+    b.onclick = () => answer(shown, b);
     aEl.appendChild(b);
   });
-  pEl.textContent=`Frage ${i+1} von ${questions.length}`;
+
+  pEl.textContent = `Frage ${i+1} von ${questions.length}`;
 }
+
 function answer(n,b){
-  if(done) return; done=true;
-  const q=questions[i];
+  if(done) return;
+  done = true;
+
   [...aEl.children].forEach((x,j)=>{
     x.classList.add("disabled");
-    if(j===q.c) x.classList.add("correct");
+    if(j === currentCorrect) x.classList.add("correct");
   });
-  if(n===q.c){ score++; sEl.textContent="Punkte: "+score; fEl.textContent="Richtig!"; }
-  else { b.classList.add("wrong"); fEl.textContent="Falsch."; }
+
+  if(n === currentCorrect){
+    score++;
+    sEl.textContent = "Punkte: " + score;
+    fEl.textContent = "Richtig!";
+  } else {
+    b.classList.add("wrong");
+    fEl.textContent = "Falsch.";
+  }
 }
-function next(){ i=(i+1)%questions.length; if(i===0){score=0; sEl.textContent="Punkte: 0";} show(); }
+
+function next(){
+  i++;
+  if(i >= questions.length){
+    i = 0;
+    score = 0;
+    sEl.textContent = "Punkte: 0";
+  }
+  show();
+}
+
 show();
 </script>
 </body>
 </html>
+
