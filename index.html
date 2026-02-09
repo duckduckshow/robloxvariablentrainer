@@ -80,31 +80,35 @@ const questions = [
 {cat:"Variablen",q:"Stimmt das?",a:["Variablen speichern Werte","Variablen sind Spieler","Variablen sind Robux","Variablen sind Sounds"],c:0},
 {cat:"Variablen",q:"Ohne Variablen kann ein Spiel …",a:["Kaum etwas merken","Mehr Farben zeigen","Schneller laden","Mehr Spieler haben"],c:0},
 
-/* ================= ROBLOX SICHERHEIT (25) ================= */
+/* ================= ROBLOX SICHERHEIT (10) ================= */
 {cat:"Roblox – Sicherheit",q:"Darf man seine Adresse im Chat schreiben?",a:["Nein","Ja","Nur Freunden","Nur kurz"],c:0},
 {cat:"Roblox – Sicherheit",q:"Jemand fragt nach deinem Passwort. Was tun?",a:["Nicht sagen","Sagen","Erraten lassen","Im Chat posten"],c:0},
 {cat:"Roblox – Sicherheit",q:"Was ist ein starkes Passwort?",a:["Lang & geheim","1234","Name","Geburtstag"],c:0},
 {cat:"Roblox – Sicherheit",q:"Kostenlose Robux über Link?",a:["Betrug","Geschenk","Sicher","Erlaubt"],c:0},
 {cat:"Roblox – Sicherheit",q:"Was tun bei Beleidigungen?",a:["Melden","Zurückschreiben","Lachen","Ignorieren für immer"],c:0},
-{cat:"Roblox – Sicherheit",q:"Wer darf private Fotos bekommen?",a:["Niemand","Freunde","Andere Spieler","Fremde"],c:0},
 {cat:"Roblox – Sicherheit",q:"Was sind private Daten?",a:["Adresse","Passwort","Telefonnummer","Alle"],c:3},
 {cat:"Roblox – Sicherheit",q:"Jemand macht dir Angst. Was tun?",a:["Erwachsenen sagen","Mitmachen","Ignorieren","Zurückdrohen"],c:0},
-{cat:"Roblox – Sicherheit",q:"Ist jeder Spieler ein Freund?",a:["Nein","Ja","Immer","Meistens"],c:0},
-{cat:"Roblox – Sicherheit",q:"Was ist Melden?",a:["Problem weitergeben","Chat löschen","Spiel verlassen","Spiel kaputt machen"],c:0},
 {cat:"Roblox – Sicherheit",q:"Darf man fremde Links anklicken?",a:["Nein","Ja","Manchmal","Nur nachts"],c:0},
-{cat:"Roblox – Sicherheit",q:"Was ist Grooming?",a:["Gefährliches Verhalten","Spielmodus","Skin","Emote"],c:0},
 {cat:"Roblox – Sicherheit",q:"Wer hilft bei Problemen?",a:["Erwachsene","Fremde Spieler","Niemand","Bots"],c:0},
-{cat:"Roblox – Sicherheit",q:"Soll man sich unwohl fühlen müssen?",a:["Nein","Ja","Manchmal","Im Spiel schon"],c:0},
 {cat:"Roblox – Sicherheit",q:"Was ist richtig?",a:["Echte Daten bleiben privat","Alles teilen","Passwort weitergeben","Links anklicken"],c:0},
-{cat:"Roblox – Sicherheit",q:"Ist Zurückbeleidigen gut?",a:["Nein","Ja","Hilft","Ist erlaubt"],c:0},
-{cat:"Roblox – Sicherheit",q:"Was tun bei komischen Nachrichten?",a:["Melden","Antworten","Weiterleiten","Ignorieren immer"],c:0},
-{cat:"Roblox – Sicherheit",q:"Darf man fremden Spielern vertrauen?",a:["Nicht automatisch","Immer","Meistens","Nie Eltern sagen"],c:0},
-{cat:"Roblox – Sicherheit",q:"Was schützt dein Konto?",a:["Passwort","Freunde","Chat","Skin"],c:0},
-{cat:"Roblox – Sicherheit",q:"Soll man Probleme verschweigen?",a:["Nein","Ja","Manchmal","Immer"],c:0},
-{cat:"Roblox – Sicherheit",q:"Wer entscheidet, was du teilst?",a:["Du","Andere","Roblox","Chat"],c:0},
-{cat:"Roblox – Sicherheit",q:"Ist Hilfe holen okay?",a:["Ja","Nein","Peinlich","Verboten"],c:0},
-{cat:"Roblox – Sicherheit",q:"Was ist richtig?",a:["Sicherheit geht vor","Robux geht vor","Freunde immer","Mutprobe"],c:0},
-{cat:"Roblox – Sicherheit",q:"Wenn etwas falsch wirkt …",a:["Hör auf dein Gefühl","Mach weiter","Ignorier es","Schreib zurück"],c:0},
+
+/* ================= VARIABLEN – EXTRA (15) ================= */
+/* (ersetzt 15 Sicherheitsfragen durch Variablen-Variationen, nicht schwieriger) */
+{cat:"Variablen",q:"Was wird gespeichert?",code:"local speed = 16",a:["Eine Zahl (16)","Ein Spieler","Ein Chat","Ein Bild"],c:0},
+{cat:"Variablen",q:"Was ist hier der Wert?",code:"local name = \"Sam\"",a:["name","Sam","local","="],c:1},
+{cat:"Variablen",q:"Was ist hier der Variablenname?",code:"local coins = 0",a:["coins","0","local","Script"],c:0},
+{cat:"Variablen",q:"Was zeigt print an?",code:"local punkte = 7\nprint(punkte)",a:["7","punkte","print","nichts"],c:0},
+{cat:"Variablen",q:"Was passiert hier?",code:"local leben = 3\nleben = 4",a:["leben wird 4","leben bleibt 3","Fehler","leben wird 34"],c:0},
+{cat:"Variablen",q:"Was wird ausgegeben?",code:"local x = 1\nx = x + 1\nprint(x)",a:["2","1","11","0"],c:0},
+{cat:"Variablen",q:"Was bedeutet == ?",a:["Vergleichen","Zuweisen","Multiplizieren","Löschen"],c:0},
+{cat:"Variablen",q:"Welche Zeile ist ein Vergleich?",a:["zahl == 5","local zahl = 5","print(zahl)","zahl = 5"],c:0},
+{cat:"Variablen",q:"Was ist hier richtig?",code:"local gesamt = 10",a:["gesamt ist der Name","10 ist der Name","local ist der Wert","= ist der Wert"],c:0},
+{cat:"Variablen",q:"Was kann man mit Variablen machen?",a:["Zählen","Merken","Ändern","Alle sind richtig"],c:3},
+{cat:"Variablen",q:"Welche Zeile ändert eine Variable?",a:["punkte = punkte + 1","local punkte = 1","print(punkte)","-- Kommentar"],c:0},
+{cat:"Variablen",q:"Was ist ein Kommentar?",a:["-- Text","local x = 1","print(x)","x = 2"],c:0},
+{cat:"Variablen",q:"Was wird ausgegeben?",code:"local a = 2\nlocal b = 3\nprint(a + b)",a:["5","6","23","1"],c:0},
+{cat:"Variablen",q:"Was wird ausgegeben?",code:"local t = \"Hi\"\nprint(t)",a:["Hi","t","\"Hi\"\"","nichts"],c:0},
+{cat:"Variablen",q:"Welche Variable ist KEIN guter Name?",a:["2coins","coins","playerName","punkte"],c:0},
 ];
 
 let i = 0;
@@ -187,4 +191,3 @@ show();
 </script>
 </body>
 </html>
-
